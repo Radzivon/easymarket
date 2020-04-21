@@ -26,6 +26,6 @@ public class User {
     @Column(name = "pass")
     private String password;
     private Role role;
-    @ManyToMany
+    @ManyToMany(mappedBy = "users")
     private Set<Cargo> cargos;
 }
