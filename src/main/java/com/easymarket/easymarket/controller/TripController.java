@@ -25,6 +25,7 @@ public class TripController {
     public TripController(TripService tripService) {
         this.tripService = tripService;
     }
+
     @GetMapping(value = "/{id}")
     public TripDto tripPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return Mapper.map(tripService.getById(id), TripDto.class);
@@ -32,9 +33,9 @@ public class TripController {
 
     @GetMapping(value = {"/all"})
     public Page<TripDto> tripsPage(@RequestParam(defaultValue = "0") int pageNo,
-                                    @RequestParam(defaultValue = "20") int pageSize,
-                                    @RequestParam(defaultValue = "id") String sortBy,
-                                    @RequestParam(defaultValue = "asc") String sortDir) {
+                                   @RequestParam(defaultValue = "20") int pageSize,
+                                   @RequestParam(defaultValue = "id") String sortBy,
+                                   @RequestParam(defaultValue = "asc") String sortDir) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
         return tripService.getAll(paging).map(this::convertToDto);
     }

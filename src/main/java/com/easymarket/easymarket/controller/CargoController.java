@@ -25,17 +25,18 @@ public class CargoController {
     public CargoController(CargoService cargoService) {
         this.cargoService = cargoService;
     }
+
     @GetMapping(value = "/{id}")
     public CargoDto cargoPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return Mapper.map(cargoService.getById(id), CargoDto.class);
     }
 
     @GetMapping(value = {"/all"})
-    public Page<CargoDto> cargosPage(@RequestParam(defaultValue = "0") int pageNo,
-                                    @RequestParam(defaultValue = "20") int pageSize,
-                                    @RequestParam(defaultValue = "id") String sortBy,
-                                    @RequestParam(defaultValue = "asc") String sortDir) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
+    public Page<CargoDto> cargoListPage(@RequestParam(name = "page", defaultValue = "0") int page,
+                                     @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                     @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+                                     @RequestParam(name = "order", defaultValue = "asc") String sortDir) {
+        Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
         return cargoService.getAll(paging).map(this::convertToDto);
     }
 
