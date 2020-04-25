@@ -1,9 +1,6 @@
 package com.easymarket.easymarket.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -29,11 +26,18 @@ public class Cargo implements Serializable {
     private BigDecimal transportationCost;
     @Enumerated(EnumType.STRING)
     private CargoCondition cargoCondition;
-    @OneToOne(fetch = FetchType.LAZY)
+
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id")
+    @ToString.Exclude
+    @ManyToOne
+    @JoinTable(name = "trip_has_city",
+            joinColumns =
+                    {@JoinColumn(name = "cargo_id", referencedColumnName = "id")},
+            inverseJoinColumns =
+                    {@JoinColumn(name = "trip_id", referencedColumnName = "id")})
     private Trip trip;
 }

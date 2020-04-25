@@ -32,4 +32,9 @@ public class UserService {
     public void update(User user) {
         userRepository.save(user);
     }
+
+    public void block(User user, boolean isBlock) {
+        user.setBlock(isBlock);
+        userRepository.save(user);
+    }
 }

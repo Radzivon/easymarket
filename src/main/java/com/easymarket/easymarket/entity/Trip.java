@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "trip")
@@ -22,8 +23,13 @@ public class Trip {
     private String currentCity;
     private String car;
     private TripCondition tripCondition;
-    @OneToOne(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cargo cargo;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "trip_has_cargo",
+            joinColumns =
+                    { @JoinColumn(name = "trip_id", referencedColumnName = "id") },
+            inverseJoinColumns =
+                    { @JoinColumn(name = "cargo_id", referencedColumnName = "id") })
+    private Set<Cargo> cargo;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "trip_has_city",
             joinColumns =
@@ -32,7 +38,7 @@ public class Trip {
                     { @JoinColumn(name = "city_id", referencedColumnName = "id") })
     private List<City> cities;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }

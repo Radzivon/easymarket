@@ -47,6 +47,14 @@ public class UserController {
         userService.save(Mapper.map(userDto, User.class));
     }
 
+    @PutMapping(value = "/block/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void blockUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) throws ResourceNotFoundException {
+        User user = userService.getById(id);
+        userService.block(user, userDto.getIsBlock());
+        System.out.println(userService.getById(id));
+    }
+
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {

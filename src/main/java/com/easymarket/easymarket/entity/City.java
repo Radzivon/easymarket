@@ -1,9 +1,6 @@
 package com.easymarket.easymarket.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,6 +15,8 @@ public class City {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
+
+    @ToString.Exclude
     @ManyToOne
     @JoinTable(name = "trip_has_city",
             joinColumns =
