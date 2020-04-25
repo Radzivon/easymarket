@@ -24,7 +24,7 @@ public class User {
     private String password;
     private Role role;
     @Column(name = "block")
-    private boolean isBlock;
+    private Boolean isBlock;
 
     @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class UserController {
     private UserService userService;
 
@@ -25,6 +25,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
 
     @GetMapping(value = {"/all"})
     public Page<UserDto> usersPage(@RequestParam(defaultValue = "0") int pageNo,
@@ -46,6 +47,7 @@ public class UserController {
     public void saveUser(@Valid @RequestBody UserDto userDto) {
         userService.save(Mapper.map(userDto, User.class));
     }
+
 
     @PutMapping(value = "/block/{id}")
     @ResponseStatus(HttpStatus.OK)

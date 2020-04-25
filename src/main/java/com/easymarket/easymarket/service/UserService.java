@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public void block(User user, boolean isBlock) {
-        user.setBlock(isBlock);
+        user.setIsBlock(isBlock);
         userRepository.save(user);
     }
 }
