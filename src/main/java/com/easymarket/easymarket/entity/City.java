@@ -19,6 +19,11 @@ public class City {
     private long id;
     private String name;
     @ManyToOne
+    @JoinTable(name = "trip_has_city",
+            joinColumns =
+                    {@JoinColumn(name = "city_id", referencedColumnName = "id")},
+            inverseJoinColumns =
+                    {@JoinColumn(name = "trip_id", referencedColumnName = "id")})
     private Trip trip;
 
 }

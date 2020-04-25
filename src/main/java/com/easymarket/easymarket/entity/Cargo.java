@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Entity
 @Table(name = "cargo")
@@ -28,13 +27,11 @@ public class Cargo implements Serializable {
     private String location;
     @Column(name = "transportation_cost")
     private BigDecimal transportationCost;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "cargo_user",
-            joinColumns = { @JoinColumn(name = "cargo_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
-    )
-    private Set<User> users;
+    @Enumerated(EnumType.STRING)
+    private CargoCondition cargoCondition;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id")

@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -26,6 +25,11 @@ public class User {
     @Column(name = "pass")
     private String password;
     private Role role;
-    @ManyToMany(mappedBy = "users")
-    private Set<Cargo> cargos;
+    private boolean block;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private Cargo cargo;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    private Trip trip;
 }

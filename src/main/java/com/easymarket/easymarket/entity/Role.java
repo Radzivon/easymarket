@@ -2,6 +2,6 @@ package com.easymarket.easymarket.entity;
 
 public enum Role {
     MANAGER,
-    OWNER,
+    CARGO_OWNER,
     TRANSPORTER
 }

@@ -26,11 +26,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/{id}")
-    public UserDto userPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        return Mapper.map(userService.getById(id), UserDto.class);
-    }
-
     @GetMapping(value = {"/all"})
     public Page<UserDto> usersPage(@RequestParam(defaultValue = "0") int pageNo,
                                    @RequestParam(defaultValue = "20") int pageSize,
@@ -39,6 +34,12 @@ public class UserController {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
         return userService.getAll(paging).map(this::convertToDto);
     }
+
+    @GetMapping(value = "/{id}")
+    public UserDto userPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        return Mapper.map(userService.getById(id), UserDto.class);
+    }
+
 
     @PostMapping(value = {"/add"})
     @ResponseStatus(HttpStatus.CREATED)
