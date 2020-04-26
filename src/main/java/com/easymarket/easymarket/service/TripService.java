@@ -29,8 +29,8 @@ public class TripService {
         tripRepository.save(trip);
     }
 
-    public void update(Trip trip) {
-        tripRepository.save(trip);
+    public void update(Trip oldTrip, Trip newTrip) {
+        tripRepository.save(newTrip);
     }
 
     public void delete(Trip trip) {

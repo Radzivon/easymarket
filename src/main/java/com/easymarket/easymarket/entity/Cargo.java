@@ -26,6 +26,7 @@ public class Cargo implements Serializable {
     private BigDecimal transportationCost;
     @Enumerated(EnumType.STRING)
     private CargoCondition cargoCondition;
+    private Boolean isPaid;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)

@@ -23,6 +23,7 @@ public class Trip {
     private String currentCity;
     private String car;
     private TripCondition tripCondition;
+    private Boolean isPaid;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "trip_has_cargo",
             joinColumns =
