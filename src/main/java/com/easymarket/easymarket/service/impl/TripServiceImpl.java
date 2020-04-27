@@ -32,6 +32,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public Page<Trip> getTripsByCargoOwner(Long userId, Pageable pageable) {
+        return tripRepository.findTripsByCargoOwner(userId, pageable);
+    }
+
+    @Override
     public Trip getById(Long id) throws ResourceNotFoundException {
         return tripRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Trip doesn't exist with id " + id));
     }

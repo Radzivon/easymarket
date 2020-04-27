@@ -40,6 +40,16 @@ public class TripController {
         return tripService.getAll(paging).map(this::convertToDto);
     }
 
+    @GetMapping(value = {"/cargo/user/{userId}"})
+    public Page<TripDto> getTripsByCargoWhereUserPage(@RequestParam(defaultValue = "0") int pageNo,
+                                                      @RequestParam(defaultValue = "20") int pageSize,
+                                                      @RequestParam(defaultValue = "id") String sortBy,
+                                                      @RequestParam(defaultValue = "asc") String sortDir,
+                                                      @PathVariable("userId") Long userId) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
+        return tripService.getTripsByCargoOwner(userId, paging).map(this::convertToDto);
+    }
+
     @PostMapping(value = {"/add"})
     @ResponseStatus(HttpStatus.CREATED)
     public void saveTrip(@Valid @RequestBody TripDto tripDto) {
