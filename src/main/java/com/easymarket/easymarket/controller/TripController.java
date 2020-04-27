@@ -3,7 +3,7 @@ package com.easymarket.easymarket.controller;
 import com.easymarket.easymarket.entity.Trip;
 import com.easymarket.easymarket.entity.dto.TripDto;
 import com.easymarket.easymarket.exception.ResourceNotFoundException;
-import com.easymarket.easymarket.service.TripService;
+import com.easymarket.easymarket.service.impl.TripServiceImpl;
 import com.easymarket.easymarket.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,16 +19,16 @@ import javax.validation.Valid;
 @RequestMapping("/trip")
 @CrossOrigin(origins = "*")
 public class TripController {
-    private TripService tripService;
+    private TripServiceImpl tripServiceImpl;
 
     @Autowired
-    public TripController(TripService tripService) {
-        this.tripService = tripService;
+    public TripController(TripServiceImpl tripServiceImpl) {
+        this.tripServiceImpl = tripServiceImpl;
     }
 
     @GetMapping(value = "/{id}")
     public TripDto tripPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        return Mapper.map(tripService.getById(id), TripDto.class);
+        return Mapper.map(tripServiceImpl.getById(id), TripDto.class);
     }
 
     @GetMapping(value = {"/all"})
@@ -37,26 +37,26 @@ public class TripController {
                                    @RequestParam(defaultValue = "id") String sortBy,
                                    @RequestParam(defaultValue = "asc") String sortDir) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
-        return tripService.getAll(paging).map(this::convertToDto);
+        return tripServiceImpl.getAll(paging).map(this::convertToDto);
     }
 
     @PostMapping(value = {"/add"})
     @ResponseStatus(HttpStatus.CREATED)
     public void saveTrip(@Valid @RequestBody TripDto tripDto) {
-        tripService.save(Mapper.map(tripDto, Trip.class));
+        tripServiceImpl.save(Mapper.map(tripDto, Trip.class));
     }
 
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void editTrip(@PathVariable("id") Long id, @Valid @RequestBody TripDto tripDto) throws ResourceNotFoundException {
-        Trip trip = tripService.getById(id);
-        tripService.update(trip,Mapper.map(tripDto, Trip.class));
+        Trip trip = tripServiceImpl.getById(id);
+        tripServiceImpl.update(trip,Mapper.map(tripDto, Trip.class));
     }
 
     @DeleteMapping(value = "/delete/{id}")
     public void deleteTrip(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        Trip trip = tripService.getById(id);
-        tripService.delete(trip);
+        Trip trip = tripServiceImpl.getById(id);
+        tripServiceImpl.delete(trip);
     }
 
     private TripDto convertToDto(Trip trip) {

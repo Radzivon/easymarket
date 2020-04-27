@@ -15,13 +15,14 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String surname;
     private String email;
     @JsonIgnore
     @Column(name = "pass")
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
     @Column(name = "block")
     private Boolean isBlock;

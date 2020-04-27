@@ -6,8 +6,10 @@ import java.util.List;
 
 @Data
 public class TripDto {
-    private long id;
+    private Long id;
     private String currentCity;
     private String car;
+    private String tripCondition;
+    private Boolean isPaid;
     private List<CityDto> cities;
 }

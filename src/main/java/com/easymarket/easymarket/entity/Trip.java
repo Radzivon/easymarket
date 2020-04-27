@@ -18,10 +18,11 @@ import java.util.Set;
 public class Trip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "current_city")
     private String currentCity;
     private String car;
+    @Enumerated(EnumType.STRING)
     private TripCondition tripCondition;
     private Boolean isPaid;
     @OneToMany

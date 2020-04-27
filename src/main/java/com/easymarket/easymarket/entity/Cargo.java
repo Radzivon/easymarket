@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class Cargo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private float weight;
     private float width;

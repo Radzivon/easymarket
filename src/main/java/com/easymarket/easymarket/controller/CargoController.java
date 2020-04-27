@@ -3,7 +3,7 @@ package com.easymarket.easymarket.controller;
 import com.easymarket.easymarket.entity.Cargo;
 import com.easymarket.easymarket.entity.dto.CargoDto;
 import com.easymarket.easymarket.exception.ResourceNotFoundException;
-import com.easymarket.easymarket.service.CargoService;
+import com.easymarket.easymarket.service.impl.CargoServiceImpl;
 import com.easymarket.easymarket.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,43 +19,47 @@ import javax.validation.Valid;
 @RequestMapping("/cargo")
 @CrossOrigin(origins = "*")
 public class CargoController {
-    private CargoService cargoService;
+    private CargoServiceImpl cargoServiceImpl;
 
     @Autowired
-    public CargoController(CargoService cargoService) {
-        this.cargoService = cargoService;
+    public CargoController(CargoServiceImpl cargoServiceImpl) {
+        this.cargoServiceImpl = cargoServiceImpl;
     }
 
     @GetMapping(value = "/{id}")
     public CargoDto cargoPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        return Mapper.map(cargoService.getById(id), CargoDto.class);
+        return Mapper.map(cargoServiceImpl.getById(id), CargoDto.class);
     }
 
     @GetMapping(value = {"/all"})
     public Page<CargoDto> cargoListPage(@RequestParam(name = "page", defaultValue = "0") int page,
-                                     @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
-                                     @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
-                                     @RequestParam(name = "order", defaultValue = "asc") String sortDir) {
+                                        @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                        @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+                                        @RequestParam(name = "order", defaultValue = "asc") String sortDir) {
         Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
-        return cargoService.getAll(paging).map(this::convertToDto);
+        return cargoServiceImpl.getAll(paging).map(this::convertToDto);
     }
 
     @PostMapping(value = {"/add"})
     @ResponseStatus(HttpStatus.CREATED)
     public void saveCargo(@Valid @RequestBody CargoDto cargoDto) {
-        cargoService.save(Mapper.map(cargoDto, Cargo.class));
+        cargoServiceImpl.save(Mapper.map(cargoDto, Cargo.class));
     }
 
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void editCargo(@PathVariable("id") Long id, @Valid @RequestBody CargoDto cargoDto) {
-        cargoService.update(Mapper.map(cargoDto, Cargo.class));
+    public void editCargo(@PathVariable("id") Long id, @Valid @RequestBody CargoDto cargoDto) throws ResourceNotFoundException {
+        cargoServiceImpl.update(id, Mapper.map(cargoDto, Cargo.class));
     }
-
+    @PutMapping(value = "/block/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void markAsPaidCargo(@PathVariable("id") Long id, @Valid @RequestBody CargoDto cargoDto) throws ResourceNotFoundException {
+        cargoServiceImpl.update(id, Mapper.map(cargoDto, Cargo.class));
+    }
     @DeleteMapping(value = "/delete/{id}")
     public void deleteCargo(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        Cargo cargo = cargoService.getById(id);
-        cargoService.delete(cargo);
+        Cargo cargo = cargoServiceImpl.getById(id);
+        cargoServiceImpl.delete(cargo);
     }
 
     private CargoDto convertToDto(Cargo part) {
