@@ -39,6 +39,16 @@ public class CargoController {
         return cargoService.getAll(paging).map(this::convertToDto);
     }
 
+    @GetMapping(value = {"cargo/user/{userId}"})
+    public Page<CargoDto> cargoListByUserIdPage(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                                @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+                                                @RequestParam(name = "order", defaultValue = "asc") String sortDir,
+                                                @PathVariable("userId") Long userId) {
+        Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
+        return cargoService.getAllByUserId(userId, paging).map(this::convertToDto);
+    }
+
     @PostMapping(value = {"cargo/add"})
     @ResponseStatus(HttpStatus.CREATED)
     public void saveCargo(@Valid @RequestBody CargoDto cargoDto) {
