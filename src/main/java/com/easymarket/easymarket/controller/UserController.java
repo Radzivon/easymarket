@@ -3,7 +3,7 @@ package com.easymarket.easymarket.controller;
 import com.easymarket.easymarket.entity.User;
 import com.easymarket.easymarket.entity.dto.UserDto;
 import com.easymarket.easymarket.exception.ResourceNotFoundException;
-import com.easymarket.easymarket.service.impl.UserServiceImpl;
+import com.easymarket.easymarket.service.UserService;
 import com.easymarket.easymarket.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,11 +19,11 @@ import javax.validation.Valid;
 @RequestMapping("/user")
 @CrossOrigin(origins = "*")
 public class UserController {
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Autowired
-    public UserController(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
 
@@ -33,34 +33,34 @@ public class UserController {
                                    @RequestParam(defaultValue = "id") String sortBy,
                                    @RequestParam(defaultValue = "asc") String sortDir) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
-        return userServiceImpl.getAll(paging).map(this::convertToDto);
+        return userService.getAll(paging).map(this::convertToDto);
     }
 
     @GetMapping(value = "/{id}")
     public UserDto userPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        return Mapper.map(userServiceImpl.getById(id), UserDto.class);
+        return Mapper.map(userService.getById(id), UserDto.class);
     }
 
 
     @PostMapping(value = {"/add"})
     @ResponseStatus(HttpStatus.CREATED)
     public void saveUser(@Valid @RequestBody UserDto userDto) {
-        userServiceImpl.save(Mapper.map(userDto, User.class));
+        userService.save(Mapper.map(userDto, User.class));
     }
 
 
     @PutMapping(value = "/block/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void blockUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) throws ResourceNotFoundException {
-        User user = userServiceImpl.getById(id);
-        userServiceImpl.block(user, userDto.getIsBlock());
-        System.out.println(userServiceImpl.getById(id));
+        User user = userService.getById(id);
+        userService.block(user, userDto.getIsBlock());
+        System.out.println(userService.getById(id));
     }
 
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
-        userServiceImpl.update(Mapper.map(userDto, User.class));
+        userService.update(Mapper.map(userDto, User.class));
     }
 
     private UserDto convertToDto(User user) {

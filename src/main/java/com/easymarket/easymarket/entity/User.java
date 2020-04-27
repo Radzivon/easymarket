@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -30,10 +30,10 @@ public class User {
     @ToString.Exclude
     @OneToMany( fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Set<Cargo> cargo;
+    private List<Cargo> cargo;
 
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Set<Trip> trips;
+    private List<Trip> trips;
 }

@@ -1,13 +1,9 @@
 package com.easymarket.easymarket.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "trip")
@@ -28,18 +24,20 @@ public class Trip {
     @OneToMany
     @JoinTable(name = "trip_has_cargo",
             joinColumns =
-                    { @JoinColumn(name = "trip_id")},
+                    {@JoinColumn(name = "trip_id")},
             inverseJoinColumns =
-                    { @JoinColumn(name = "cargo_id") })
-    private Set<Cargo> cargo;
+                    {@JoinColumn(name = "cargo_id")})
+    private List<Cargo> cargo;
+
     @OneToMany
     @JoinTable(name = "trip_has_city",
             joinColumns =
-                    { @JoinColumn(name = "trip_id") },
+                    {@JoinColumn(name = "trip_id")},
             inverseJoinColumns =
-                    { @JoinColumn(name = "city_id") })
+                    {@JoinColumn(name = "city_id")})
     private List<City> cities;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

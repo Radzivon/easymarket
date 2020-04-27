@@ -57,4 +57,12 @@ public class CargoServiceImpl implements CargoService {
     public void delete(Cargo cargo) {
         cargoRepository.delete(cargo);
     }
+
+    @Override
+    public void updatePaid(Long id, boolean isPaid) throws ResourceNotFoundException {
+        Cargo oldCargo = cargoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cargo doesn't exist with id " + id));
+        oldCargo.setIsPaid(isPaid);
+        cargoRepository.save(oldCargo);
+    }
 }

@@ -13,4 +13,5 @@ public interface CargoService {
     void update(Long id, Cargo cargo) throws ResourceNotFoundException;
     void save(Cargo cargo);
     void delete(Cargo cargo);
+    void updatePaid(Long id, boolean isPaid) throws ResourceNotFoundException;
 }

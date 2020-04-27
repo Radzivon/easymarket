@@ -12,4 +12,5 @@ public class TripDto {
     private String tripCondition;
     private Boolean isPaid;
     private List<CityDto> cities;
+    private Long userId;
 }
