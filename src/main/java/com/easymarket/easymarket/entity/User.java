@@ -27,12 +27,12 @@ public class User {
     private Boolean isBlock;
 
     @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany( fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Set<Cargo> cargo;
 
     @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Set<Trip> trips;
 }

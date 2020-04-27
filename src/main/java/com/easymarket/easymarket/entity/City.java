@@ -20,9 +20,9 @@ public class City {
     @ManyToOne
     @JoinTable(name = "trip_has_city",
             joinColumns =
-                    {@JoinColumn(name = "city_id", referencedColumnName = "id")},
+                    {@JoinColumn(name = "city_id")},
             inverseJoinColumns =
-                    {@JoinColumn(name = "trip_id", referencedColumnName = "id")})
+                    {@JoinColumn(name = "trip_id")})
     private Trip trip;
 
 }

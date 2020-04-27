@@ -35,10 +35,10 @@ public class Cargo implements Serializable {
 
     @ToString.Exclude
     @ManyToOne
-    @JoinTable(name = "trip_has_city",
+    @JoinTable(name = "trip_has_cargo",
             joinColumns =
-                    {@JoinColumn(name = "cargo_id", referencedColumnName = "id")},
+                    {@JoinColumn(name = "cargo_id")},
             inverseJoinColumns =
-                    {@JoinColumn(name = "trip_id", referencedColumnName = "id")})
+                    {@JoinColumn(name = "trip_id")})
     private Trip trip;
 }

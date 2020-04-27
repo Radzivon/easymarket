@@ -24,19 +24,19 @@ public class Trip {
     private String car;
     private TripCondition tripCondition;
     private Boolean isPaid;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinTable(name = "trip_has_cargo",
             joinColumns =
-                    { @JoinColumn(name = "trip_id", referencedColumnName = "id") },
+                    { @JoinColumn(name = "trip_id")},
             inverseJoinColumns =
-                    { @JoinColumn(name = "cargo_id", referencedColumnName = "id") })
+                    { @JoinColumn(name = "cargo_id") })
     private Set<Cargo> cargo;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinTable(name = "trip_has_city",
             joinColumns =
-                    { @JoinColumn(name = "trip_id", referencedColumnName = "id") },
+                    { @JoinColumn(name = "trip_id") },
             inverseJoinColumns =
-                    { @JoinColumn(name = "city_id", referencedColumnName = "id") })
+                    { @JoinColumn(name = "city_id") })
     private List<City> cities;
 
     @ManyToOne(fetch = FetchType.LAZY)
