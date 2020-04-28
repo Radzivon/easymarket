@@ -43,7 +43,7 @@ public class TripController {
         return tripService.getAll(paging).map(this::convertToDto);
     }
 
-    @GetMapping(value = {"/trip/current/{userId}"})
+    @GetMapping(value = {"/current/{userId}"})
     public Page<TripDto> currentTripsPage(@RequestParam(defaultValue = "0") int pageNo,
                                           @RequestParam(defaultValue = "20") int pageSize,
                                           @RequestParam(defaultValue = "id") String sortBy,
@@ -73,8 +73,7 @@ public class TripController {
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void editTrip(@PathVariable("id") Long id, @Valid @RequestBody TripDto tripDto) throws ResourceNotFoundException {
-        Trip trip = tripService.getById(id);
-        tripService.update(trip, Mapper.map(tripDto, Trip.class));
+        tripService.update(Mapper.map(tripDto, Trip.class));
     }
 
     @DeleteMapping(value = "/delete/{id}")

@@ -15,7 +15,7 @@ public interface TripService {
 
     void save(Trip trip);
 
-    void update(Trip oldTrip, Trip newTrip);
+    void update(Trip trip);
 
     void delete(Trip trip);
 
