@@ -1,6 +1,7 @@
 package com.easymarket.easymarket.service;
 
 import com.easymarket.easymarket.entity.Trip;
+import com.easymarket.easymarket.entity.User;
 import com.easymarket.easymarket.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,4 +18,6 @@ public interface TripService {
     void update(Trip oldTrip, Trip newTrip);
 
     void delete(Trip trip);
+
+    Page<Trip> getCurrentTrips(User user, Pageable pageable);
 }

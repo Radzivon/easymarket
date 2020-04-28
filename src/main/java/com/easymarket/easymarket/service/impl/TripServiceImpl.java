@@ -2,6 +2,8 @@ package com.easymarket.easymarket.service.impl;
 
 import com.easymarket.easymarket.entity.City;
 import com.easymarket.easymarket.entity.Trip;
+import com.easymarket.easymarket.entity.TripCondition;
+import com.easymarket.easymarket.entity.User;
 import com.easymarket.easymarket.exception.ResourceNotFoundException;
 import com.easymarket.easymarket.repository.TripRepository;
 import com.easymarket.easymarket.service.CityService;
@@ -24,6 +26,11 @@ public class TripServiceImpl implements TripService {
     public TripServiceImpl(TripRepository tripRepository, CityService cityService) {
         this.tripRepository = tripRepository;
         this.cityService = cityService;
+    }
+
+    @Override
+    public Page<Trip> getCurrentTrips(User user, Pageable pageable) {
+        return tripRepository.findTripsByUserAndTripCondition(user, TripCondition.IN_PROCESS, pageable);
     }
 
     @Override
