@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CargoServiceImpl implements CargoService {
     private CargoRepository cargoRepository;
@@ -38,6 +41,16 @@ public class CargoServiceImpl implements CargoService {
     public Cargo getById(Long id) throws ResourceNotFoundException {
         return cargoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cargo doesn't exist with id " + id));
+    }
+
+    @Override
+    public List<Cargo> updateCondition(List<Cargo> cargo) {
+        List<Cargo> saved = new ArrayList<>();
+        for (Cargo temp : cargo) {
+            temp.setCargoCondition(CargoCondition.IN_TRIP);
+            saved.add(cargoRepository.save(temp));
+        }
+        return saved;
     }
 
     @Override

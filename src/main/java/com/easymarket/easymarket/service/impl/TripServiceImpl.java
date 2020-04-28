@@ -1,11 +1,9 @@
 package com.easymarket.easymarket.service.impl;
 
-import com.easymarket.easymarket.entity.City;
-import com.easymarket.easymarket.entity.Trip;
-import com.easymarket.easymarket.entity.TripCondition;
-import com.easymarket.easymarket.entity.User;
+import com.easymarket.easymarket.entity.*;
 import com.easymarket.easymarket.exception.ResourceNotFoundException;
 import com.easymarket.easymarket.repository.TripRepository;
+import com.easymarket.easymarket.service.CargoService;
 import com.easymarket.easymarket.service.CityService;
 import com.easymarket.easymarket.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +19,13 @@ import java.util.List;
 public class TripServiceImpl implements TripService {
     private TripRepository tripRepository;
     private CityService cityService;
+    private CargoService cargoService;
 
     @Autowired
-    public TripServiceImpl(TripRepository tripRepository, CityService cityService) {
+    public TripServiceImpl(TripRepository tripRepository, CityService cityService, CargoService cargoService) {
         this.tripRepository = tripRepository;
         this.cityService = cityService;
+        this.cargoService = cargoService;
     }
 
     @Override
@@ -53,6 +53,8 @@ public class TripServiceImpl implements TripService {
         List<City> savedCities = cityService.saveAll(trip.getCities());
         trip.setCities(savedCities);
 
+        List<Cargo> updatedCargo = cargoService.updateCondition(trip.getCargo());
+        trip.setCargo(updatedCargo);
         tripRepository.save(trip);
     }
 
