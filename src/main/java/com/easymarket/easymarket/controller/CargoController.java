@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +28,11 @@ public class CargoController {
     }
 
     @GetMapping(value = "cargo/{id}")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public CargoDto cargoPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return Mapper.map(cargoService.getById(id), CargoDto.class);
     }
 
     @GetMapping(value = {"cargo/all"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public Page<CargoDto> cargoListPage(@RequestParam(name = "page", defaultValue = "0") int page,
                                         @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                         @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
@@ -45,7 +42,6 @@ public class CargoController {
     }
 
     @GetMapping(value = {"cargo/free"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public Page<CargoDto> cargoFreeListPage(@RequestParam(name = "page", defaultValue = "0") int page,
                                             @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                             @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
@@ -55,7 +51,6 @@ public class CargoController {
     }
 
     @GetMapping(value = {"cargo/user"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public Page<CargoDto> cargoListByUserIdPage(@RequestParam(name = "page", defaultValue = "0") int page,
                                                 @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                                 @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
@@ -67,7 +62,6 @@ public class CargoController {
 
     @PostMapping(value = {"cargo/add"})
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void saveCargo(@Valid @RequestBody CargoDto cargoDto,
                           @AuthenticationPrincipal UserPrinciple userPrinciple) {
         cargoDto.setUserId(userPrinciple.getId());
@@ -76,20 +70,17 @@ public class CargoController {
 
     @PutMapping(value = "cargo/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void editCargo(@PathVariable("id") Long id, @Valid @RequestBody CargoDto cargoDto) throws ResourceNotFoundException {
         cargoService.update(id, Mapper.map(cargoDto, Cargo.class));
     }
 
     @PutMapping(value = "cargo/paid/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void markAsPaidCargo(@PathVariable("id") Long id, @RequestBody Boolean isPaid) throws ResourceNotFoundException {
         cargoService.updatePaid(id, isPaid);
     }
 
     @DeleteMapping(value = "cargo/delete/{id}")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void deleteCargo(@PathVariable("id") Long id) throws ResourceNotFoundException {
         Cargo cargo = cargoService.getById(id);
         cargoService.delete(cargo);

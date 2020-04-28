@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,13 +32,11 @@ public class TripController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public TripDto tripPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return Mapper.map(tripService.getById(id), TripDto.class);
     }
 
     @GetMapping(value = {"/all"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public Page<TripDto> tripsPage(@RequestParam(defaultValue = "0") int pageNo,
                                    @RequestParam(defaultValue = "20") int pageSize,
                                    @RequestParam(defaultValue = "id") String sortBy,
@@ -49,7 +46,6 @@ public class TripController {
     }
 
     @GetMapping(value = {"/current"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public Page<TripDto> currentTripsPage(@RequestParam(defaultValue = "0") int pageNo,
                                           @RequestParam(defaultValue = "20") int pageSize,
                                           @RequestParam(defaultValue = "id") String sortBy,
@@ -61,7 +57,6 @@ public class TripController {
     }
 
     @GetMapping(value = {"/cargo/user"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public Page<TripDto> getTripsByCargoWhereUserPage(@RequestParam(defaultValue = "0") int pageNo,
                                                       @RequestParam(defaultValue = "20") int pageSize,
                                                       @RequestParam(defaultValue = "id") String sortBy,
@@ -73,7 +68,6 @@ public class TripController {
 
     @PostMapping(value = {"/add"})
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void saveTrip(@Valid @RequestBody TripDto tripDto,
                          @AuthenticationPrincipal UserPrinciple userPrinciple) {
         tripDto.setUserId(userPrinciple.getId());
@@ -82,13 +76,11 @@ public class TripController {
 
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void editTrip(@PathVariable("id") Long id, @Valid @RequestBody TripDto tripDto) throws ResourceNotFoundException {
         tripService.update(Mapper.map(tripDto, Trip.class));
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void deleteTrip(@PathVariable("id") Long id) throws ResourceNotFoundException {
         Trip trip = tripService.getById(id);
         tripService.delete(trip);

@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +33,6 @@ public class UserController {
 
 
     @GetMapping(value = {"/all"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public Page<UserDto> usersPage(@RequestParam(defaultValue = "0") int pageNo,
                                    @RequestParam(defaultValue = "20") int pageSize,
                                    @RequestParam(defaultValue = "id") String sortBy,
@@ -44,27 +42,23 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public UserDto userPage(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return Mapper.map(userService.getById(id), UserDto.class);
     }
 
     @GetMapping(value = "/info")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public UserDto userInfo(@AuthenticationPrincipal UserPrinciple userPrinciple) throws ResourceNotFoundException {
         return Mapper.map(userService.getById(userPrinciple.getId()), UserDto.class);
     }
 
     @PostMapping(value = {"/add"})
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void saveUser(@Valid @RequestBody UserDto userDto) {
         userService.save(Mapper.map(userDto, User.class));
     }
 
     @PutMapping(value = "/block/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void blockUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) throws ResourceNotFoundException {
         User user = userService.getById(id);
         userService.block(user, userDto.getIsBlock());
@@ -73,13 +67,12 @@ public class UserController {
 
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
+
     public void editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
         userService.update(Mapper.map(userDto, User.class));
     }
 
     @GetMapping(value = {"/send/{username}"})
-    @PreAuthorize("hasRole('MANAGER') or hasRole('TRANSPORTER') or hasRole('CARGO_OWNER')")
     public void test(@PathVariable String username) {
         senderService.testEmail(username);
     }
