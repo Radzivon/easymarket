@@ -1,8 +1,10 @@
 package com.easymarket.easymarket.controller;
 
 import com.easymarket.easymarket.entity.User;
+import com.easymarket.easymarket.entity.dto.CargoDto;
 import com.easymarket.easymarket.entity.dto.UserDto;
 import com.easymarket.easymarket.exception.ResourceNotFoundException;
+import com.easymarket.easymarket.service.SenderService;
 import com.easymarket.easymarket.service.UserService;
 import com.easymarket.easymarket.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,19 +13,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 10000)
 public class UserController {
     private UserService userService;
+    private final SenderService senderService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, SenderService senderService) {
         this.userService = userService;
+        this.senderService = senderService;
     }
 
 
@@ -62,6 +67,12 @@ public class UserController {
     public void editUser(@PathVariable("id") Long id, @Valid @RequestBody UserDto userDto) {
         userService.update(Mapper.map(userDto, User.class));
     }
+
+    @GetMapping(value = {"/send/{username}"})
+    public void test(@PathVariable String username) {
+        senderService.testEmail(username);
+    }
+
 
     private UserDto convertToDto(User user) {
         return Mapper.map(user, UserDto.class);
