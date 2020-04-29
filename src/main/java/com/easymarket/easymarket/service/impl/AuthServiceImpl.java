@@ -56,10 +56,12 @@ public class AuthServiceImpl implements AuthService {
         // Creating user's account
         User user = User.builder()
                 .name(signUpForm.getName())
+                .surname(signUpForm.getSurname())
                 .username(signUpForm.getUsername())
                 .email(signUpForm.getEmail())
                 .password(encoder.encode(signUpForm.getPassword()))
                 .role(signUpForm.getRole())
+                .isBlock(signUpForm.getIsBlock())
                 .build();
         userRepository.save(user);
 
