@@ -76,7 +76,9 @@ public class TripController {
 
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void editTrip(@PathVariable("id") Long id, @Valid @RequestBody TripDto tripDto) throws ResourceNotFoundException {
+    public void editTrip(@PathVariable("id") Long id, @Valid @RequestBody TripDto tripDto,
+                         @AuthenticationPrincipal UserPrinciple userPrinciple) throws ResourceNotFoundException {
+        tripDto.setUserId(userPrinciple.getId());
         tripService.update(Mapper.map(tripDto, Trip.class));
     }
 

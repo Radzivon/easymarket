@@ -55,10 +55,7 @@ public class CargoServiceImpl implements CargoService {
 
     @Override
     public void update(Long id, Cargo cargo) throws ResourceNotFoundException {
-        Cargo oldCargo = cargoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Cargo doesn't exist with id " + id));
-//todo
-        cargoRepository.save(oldCargo);
+        cargoRepository.save(cargo);
     }
 
     @Override

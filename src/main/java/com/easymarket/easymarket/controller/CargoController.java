@@ -70,14 +70,16 @@ public class CargoController {
 
     @PutMapping(value = "cargo/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void editCargo(@PathVariable("id") Long id, @Valid @RequestBody CargoDto cargoDto) throws ResourceNotFoundException {
+    public void editCargo(@PathVariable("id") Long id, @Valid @RequestBody CargoDto cargoDto,
+                          @AuthenticationPrincipal UserPrinciple userPrinciple) throws ResourceNotFoundException {
+        cargoDto.setUserId(userPrinciple.getId());
         cargoService.update(id, Mapper.map(cargoDto, Cargo.class));
     }
 
     @PutMapping(value = "cargo/paid/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void markAsPaidCargo(@PathVariable("id") Long id, @RequestBody Boolean isPaid) throws ResourceNotFoundException {
-        cargoService.updatePaid(id, isPaid);
+    public void markAsPaidCargo(@PathVariable("id") Long id, @RequestBody CargoDto cargoDto) throws ResourceNotFoundException {
+        cargoService.updatePaid(id, cargoDto.getIsPaid());
     }
 
     @DeleteMapping(value = "cargo/delete/{id}")
