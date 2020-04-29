@@ -21,20 +21,11 @@ public class Trip {
     @Enumerated(EnumType.STRING)
     private TripCondition tripCondition;
     private Boolean isPaid;
-    @OneToMany
-    @JoinTable(name = "trip_has_cargo",
-            joinColumns =
-                    {@JoinColumn(name = "trip_id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "cargo_id")})
+
+    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cargo> cargo;
 
-    @OneToMany
-    @JoinTable(name = "trip_has_city",
-            joinColumns =
-                    {@JoinColumn(name = "trip_id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "city_id")})
+    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<City> cities;
 
     @ToString.Exclude

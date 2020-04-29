@@ -34,11 +34,8 @@ public class Cargo implements Serializable {
     private User user;
 
     @ToString.Exclude
-    @ManyToOne
-    @JoinTable(name = "trip_has_cargo",
-            joinColumns =
-                    {@JoinColumn(name = "cargo_id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name = "trip_id")})
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "trip_id")
     private Trip trip;
+
 }
