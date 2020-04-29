@@ -25,7 +25,11 @@ public class Trip {
     @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Cargo> cargo;
 
-    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @ManyToMany
+    @JoinTable(name = "trip_cities",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "city_id"))
     private List<City> cities;
 
     @ToString.Exclude

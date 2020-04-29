@@ -3,6 +3,8 @@ package com.easymarket.easymarket.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "city")
@@ -18,8 +20,9 @@ public class City {
     private String name;
 
     @ToString.Exclude
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id")
-    private Trip trip;
-
+    @ManyToMany
+    @JoinTable(name = "trip_cities",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "city_id"))
+    private List<Trip> trips;
 }
