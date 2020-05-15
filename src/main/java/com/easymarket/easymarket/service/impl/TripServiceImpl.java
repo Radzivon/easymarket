@@ -34,6 +34,13 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public Trip cancel(Trip trip) {
+        cargoService.updateCondition(trip.getCargo(), CargoCondition.DELIVERED);
+        trip.setTripCondition(TripCondition.COMPLETED);
+        return tripRepository.save(trip);
+    }
+
+    @Override
     public Page<Trip> getAll(Pageable pageable) {
         return tripRepository.findAll(pageable);
     }
@@ -53,7 +60,7 @@ public class TripServiceImpl implements TripService {
         List<City> savedCities = cityService.saveAll(trip.getCities());
         trip.setCities(savedCities);
 
-        List<Cargo> updatedCargo = cargoService.updateCondition(trip.getCargo());
+        List<Cargo> updatedCargo = cargoService.updateCondition(trip.getCargo(), CargoCondition.IN_TRIP);
         trip.setCargo(updatedCargo);
         tripRepository.save(trip);
     }

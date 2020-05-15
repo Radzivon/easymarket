@@ -44,10 +44,10 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public List<Cargo> updateCondition(List<Cargo> cargo) {
+    public List<Cargo> updateCondition(List<Cargo> cargo, CargoCondition cargoCondition) {
         List<Cargo> saved = new ArrayList<>();
         for (Cargo temp : cargo) {
-            temp.setCargoCondition(CargoCondition.IN_TRIP);
+            temp.setCargoCondition(cargoCondition);
             saved.add(cargoRepository.save(temp));
         }
         return saved;

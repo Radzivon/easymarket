@@ -20,4 +20,6 @@ public interface TripService {
     void delete(Trip trip);
 
     Page<Trip> getCurrentTrips(User user, Pageable pageable);
+
+    Trip cancel(Trip trip);
 }

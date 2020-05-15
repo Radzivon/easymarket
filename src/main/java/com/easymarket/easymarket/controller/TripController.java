@@ -73,6 +73,13 @@ public class TripController {
         tripDto.setUserId(userPrinciple.getId());
         tripService.save(Mapper.map(tripDto, Trip.class));
     }
+    @PutMapping(value = "/cancel/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelTrip(@PathVariable("id") Long id, @Valid @RequestBody TripDto tripDto,
+                         @AuthenticationPrincipal UserPrinciple userPrinciple) throws ResourceNotFoundException {
+        tripDto.setUserId(userPrinciple.getId());
+        tripService.cancel(Mapper.map(tripDto, Trip.class));
+    }
 
     @PutMapping(value = "/edit/{id}")
     @ResponseStatus(HttpStatus.OK)
