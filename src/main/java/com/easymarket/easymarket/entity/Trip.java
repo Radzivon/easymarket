@@ -22,7 +22,10 @@ public class Trip {
     private TripCondition tripCondition;
     private Boolean isPaid;
 
-    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "trip_cargo",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "cargo_id"))
     private List<Cargo> cargo;
 
 
