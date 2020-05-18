@@ -23,7 +23,6 @@ public interface TripRepository extends PagingAndSortingRepository<Trip, Long> {
     Page<Trip> findTripsByCargoOwner(@Param("userId") Long userId, Pageable pageable);
 
     Page<Trip> findTripsByUserAndTripCondition(User user, TripCondition tripCondition, Pageable pageable);
-
     Optional<Trip> findById(Long id);
 
     Trip save(Trip trip);
