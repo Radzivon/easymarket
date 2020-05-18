@@ -47,7 +47,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Page<Trip> getTripsByCargoOwner(Long userId, Pageable pageable) {
-        return tripRepository.findTripsByCargoOwner(userId, pageable);
+        return tripRepository.findTripsByCargoUserId(userId, pageable);
     }
 
     @Override
