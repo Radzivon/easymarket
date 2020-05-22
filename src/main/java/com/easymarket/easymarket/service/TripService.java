@@ -15,7 +15,7 @@ public interface TripService {
 
     void save(Trip trip);
 
-    void update(Trip trip);
+    void update(Trip trip) throws ResourceNotFoundException;
 
     void delete(Trip trip);
 

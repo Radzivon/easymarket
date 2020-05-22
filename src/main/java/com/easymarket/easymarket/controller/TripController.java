@@ -56,7 +56,7 @@ public class TripController {
         return tripService.getCurrentTrips(userService.getById(userPrinciple.getId()), paging).map(this::convertToDto);
     }
 
-    @GetMapping(value = {"/cargo/user"})
+    @GetMapping(value = {"/cargouser"})
     public Page<TripDto> getTripsByCargoWhereUserPage(@RequestParam(defaultValue = "0") int pageNo,
                                                       @RequestParam(defaultValue = "20") int pageSize,
                                                       @RequestParam(defaultValue = "id") String sortBy,
@@ -85,7 +85,7 @@ public class TripController {
     @ResponseStatus(HttpStatus.OK)
     public void editTrip(@PathVariable("id") Long id, @Valid @RequestBody TripDto tripDto,
                          @AuthenticationPrincipal UserPrinciple userPrinciple) throws ResourceNotFoundException {
-        tripDto.setUserId(userPrinciple.getId());
+
         tripService.update(Mapper.map(tripDto, Trip.class));
     }
 
