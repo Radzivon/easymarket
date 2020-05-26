@@ -33,11 +33,11 @@ public class UserController {
 
 
     @GetMapping(value = {"/all"})
-    public Page<UserDto> usersPage(@RequestParam(defaultValue = "0") int pageNo,
-                                   @RequestParam(defaultValue = "20") int pageSize,
-                                   @RequestParam(defaultValue = "id") String sortBy,
-                                   @RequestParam(defaultValue = "asc") String sortDir) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
+    public Page<UserDto> usersPage(@RequestParam(name = "page", defaultValue = "0") int page,
+                                   @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                   @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+                                   @RequestParam(name = "order", defaultValue = "asc") String sortDir) {
+        Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
         return userService.getAll(paging).map(this::convertToDto);
     }
 

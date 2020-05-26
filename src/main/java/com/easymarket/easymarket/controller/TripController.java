@@ -37,32 +37,32 @@ public class TripController {
     }
 
     @GetMapping(value = {"/all"})
-    public Page<TripDto> tripsPage(@RequestParam(defaultValue = "0") int pageNo,
-                                   @RequestParam(defaultValue = "20") int pageSize,
-                                   @RequestParam(defaultValue = "id") String sortBy,
-                                   @RequestParam(defaultValue = "asc") String sortDir) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
+    public Page<TripDto> tripsPage(@RequestParam(name = "page", defaultValue = "0") int page,
+                                   @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                   @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+                                   @RequestParam(name = "order", defaultValue = "asc") String sortDir) {
+        Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
         return tripService.getAll(paging).map(this::convertToDto);
     }
 
     @GetMapping(value = {"/current"})
-    public Page<TripDto> currentTripsPage(@RequestParam(defaultValue = "0") int pageNo,
-                                          @RequestParam(defaultValue = "20") int pageSize,
-                                          @RequestParam(defaultValue = "id") String sortBy,
-                                          @RequestParam(defaultValue = "asc") String sortDir,
+    public Page<TripDto> currentTripsPage(@RequestParam(name = "page", defaultValue = "0") int page,
+                                          @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                          @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+                                          @RequestParam(name = "order", defaultValue = "asc") String sortDir,
                                           @AuthenticationPrincipal UserPrinciple userPrinciple) throws ResourceNotFoundException {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
+        Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
 
         return tripService.getCurrentTrips(userService.getById(userPrinciple.getId()), paging).map(this::convertToDto);
     }
 
     @GetMapping(value = {"/cargouser"})
-    public Page<TripDto> getTripsByCargoWhereUserPage(@RequestParam(defaultValue = "0") int pageNo,
-                                                      @RequestParam(defaultValue = "20") int pageSize,
-                                                      @RequestParam(defaultValue = "id") String sortBy,
-                                                      @RequestParam(defaultValue = "asc") String sortDir,
+    public Page<TripDto> getTripsByCargoWhereUserPage(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                                      @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
+                                                      @RequestParam(name = "order", defaultValue = "asc") String sortDir,
                                                       @AuthenticationPrincipal UserPrinciple userPrinciple) {
-        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.Direction.fromString(sortDir), sortBy);
+        Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
         return tripService.getTripsByCargoOwner(userPrinciple.getId(), paging).map(this::convertToDto);
     }
 
