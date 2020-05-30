@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 10000)
+@CrossOrigin(origins = "*", maxAge = 10000)
 public class UserController {
     private UserService userService;
     private final SenderService senderService;
