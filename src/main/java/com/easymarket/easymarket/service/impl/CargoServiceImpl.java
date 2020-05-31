@@ -50,6 +50,7 @@ public class CargoServiceImpl implements CargoService {
             temp.setCargoCondition(cargoCondition);
             saved.add(cargoRepository.save(temp));
         }
+        System.out.println(saved);
         return saved;
     }
 

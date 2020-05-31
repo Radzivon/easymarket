@@ -69,6 +69,7 @@ public class TripServiceImpl implements TripService {
     public void update(Trip trip) throws ResourceNotFoundException {
         Trip temp = tripRepository.findById(trip.getId()).orElseThrow(() -> new ResourceNotFoundException("Trip doesn't exist with id " + trip.getId()));
         trip.setUser(temp.getUser());
+        trip.setCargo(temp.getCargo());
         tripRepository.save(trip);
     }
 

@@ -34,7 +34,7 @@ public class CargoController {
 
     @GetMapping(value = {"cargo/all"})
     public Page<CargoDto> cargoListPage(@RequestParam(name = "page", defaultValue = "0") int page,
-                                        @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                        @RequestParam(name = "pageSize", defaultValue = "4") int pageSize,
                                         @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                         @RequestParam(name = "order", defaultValue = "asc") String sortDir) {
         Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
@@ -43,7 +43,7 @@ public class CargoController {
 
     @GetMapping(value = {"cargo/free"})
     public Page<CargoDto> cargoFreeListPage(@RequestParam(name = "page", defaultValue = "0") int page,
-                                            @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                            @RequestParam(name = "pageSize", defaultValue = "4") int pageSize,
                                             @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                             @RequestParam(name = "order", defaultValue = "asc") String sortDir) {
         Pageable paging = PageRequest.of(page, pageSize, Sort.Direction.fromString(sortDir), sortBy);
@@ -52,7 +52,7 @@ public class CargoController {
 
     @GetMapping(value = {"cargo/user"})
     public Page<CargoDto> cargoListByUserIdPage(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+                                                @RequestParam(name = "pageSize", defaultValue = "4") int pageSize,
                                                 @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                                 @RequestParam(name = "order", defaultValue = "asc") String sortDir,
                                                 @AuthenticationPrincipal UserPrinciple userPrinciple) {
