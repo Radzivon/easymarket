@@ -91,7 +91,7 @@ public class CargoServiceImpl implements CargoService {
         html.append( "</body>\n" );
         html.append( "</html>" );
         Sender sender = new Sender();
-        String subject = "Подтверждение оплаты";
+        String subject = "Подтверждение оплаты !";
         sender.send(subject, html.toString(), getById(cargoId).getUser().getEmail());
     }
 
