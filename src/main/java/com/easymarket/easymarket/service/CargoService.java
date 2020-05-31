@@ -17,4 +17,6 @@ public interface CargoService {
     void save(Cargo cargo);
     void delete(Cargo cargo);
     void updatePaid(Long id, boolean isPaid) throws ResourceNotFoundException;
+    void sendConfirmToEmail(Long cargoId, double sum) throws ResourceNotFoundException;
+    void confirm(String hashConfirm) throws Exception;
 }

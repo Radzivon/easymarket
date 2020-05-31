@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @RestController
@@ -86,6 +87,17 @@ public class CargoController {
     public void deleteCargo(@PathVariable("id") Long id) throws ResourceNotFoundException {
         Cargo cargo = cargoService.getById(id);
         cargoService.delete(cargo);
+    }
+
+    @GetMapping("{cargo_id}/sendConfirm")
+    public void sendConfirmToEmail(@PathVariable(name = "cargo_id") Long cargoId,
+                                   @RequestParam double sum) throws MessagingException, ResourceNotFoundException {
+        cargoService.sendConfirmToEmail(cargoId, sum);
+    }
+
+    @GetMapping("confirm/{hashConfirm}")
+    public void confirm(@PathVariable(name = "hashConfirm") String hashConfirm) throws Exception {
+        cargoService.confirm(hashConfirm);
     }
 
     private CargoDto convertToDto(Cargo part) {
